@@ -62,7 +62,7 @@ class AppState with ChangeNotifier {
   String? _routeError;
 
   // UI-level state shared across tabs
-  MapStyleId _mapStyle = MapStyleId.standard;
+  MapStyleId _mapStyle = MapStyleId.googleStreets;
   List<MockHistoryEntry> _history = [];
 
   // Live service status (polled once per second while the app is open)
@@ -138,7 +138,7 @@ class AppState with ChangeNotifier {
       _loadFavorites(prefs);
       unawaited(_syncFavoritesToNative());
       _mapStyle = MapStyleId.values.asNameMap()[prefs.getString('map_style')] ??
-          MapStyleId.standard;
+          MapStyleId.googleStreets;
       unawaited(loadHistory());
       final lastLat = prefs.getDouble('last_lat');
       final lastLng = prefs.getDouble('last_lng');

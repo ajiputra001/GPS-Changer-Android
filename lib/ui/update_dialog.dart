@@ -113,7 +113,6 @@ class UpdateDialog extends StatelessWidget {
                 ),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    UpdateService.saveCurrentTag(updateInfo.version);
                     UpdateService.launchDownload(updateInfo.downloadUrl);
                   },
                   icon: const Icon(Icons.download_rounded, color: Colors.white, size: 20),

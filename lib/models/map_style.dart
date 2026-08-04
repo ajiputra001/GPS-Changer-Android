@@ -107,11 +107,13 @@ class MapStyle {
   static MapStyle byId(MapStyleId id) =>
       all.firstWhere((style) => style.id == id);
 
-  /// The style to actually render: "Standard" quietly becomes the dark
-  /// basemap in dark theme so the map matches the app (and avoids costly
-  /// color filtering); explicit choices are always respected.
+  /// The style to actually render: Google Streets or Standard quietly becomes
+  /// the dark basemap in dark theme so the map matches the app; explicit
+  /// choices are always respected.
   static MapStyle resolve(MapStyleId id, {required bool darkTheme}) {
-    if (id == MapStyleId.standard && darkTheme) return byId(MapStyleId.dark);
+    if ((id == MapStyleId.googleStreets || id == MapStyleId.standard) && darkTheme) {
+      return byId(MapStyleId.dark);
+    }
     return byId(id);
   }
 }
