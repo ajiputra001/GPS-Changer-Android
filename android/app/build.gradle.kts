@@ -41,14 +41,14 @@ android {
             val kFile = file(keystoreProperties.getProperty("storeFile") ?: "upload-keystore.jks")
             if (kFile.exists()) {
                 storeFile = kFile
-                storePassword = keystoreProperties.getProperty("storePassword")
-                    ?: System.getenv("STORE_PASSWORD")
+                storePassword = keystoreProperties.getProperty("storePassword")?.takeIf { it.isNotBlank() }
+                    ?: System.getenv("STORE_PASSWORD")?.takeIf { it.isNotBlank() }
                     ?: "android"
-                keyAlias = keystoreProperties.getProperty("keyAlias")
-                    ?: System.getenv("KEY_ALIAS")
+                keyAlias = keystoreProperties.getProperty("keyAlias")?.takeIf { it.isNotBlank() }
+                    ?: System.getenv("KEY_ALIAS")?.takeIf { it.isNotBlank() }
                     ?: "upload"
-                keyPassword = keystoreProperties.getProperty("keyPassword")
-                    ?: System.getenv("KEY_PASSWORD")
+                keyPassword = keystoreProperties.getProperty("keyPassword")?.takeIf { it.isNotBlank() }
+                    ?: System.getenv("KEY_PASSWORD")?.takeIf { it.isNotBlank() }
                     ?: "android"
             }
         }

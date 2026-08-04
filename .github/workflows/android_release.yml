@@ -42,9 +42,9 @@ jobs:
 
     - name: Build Android Universal APK
       env:
-        STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        STORE_PASSWORD: ${{ secrets.STORE_PASSWORD || 'android' }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'android' }}
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS || 'upload' }}
       run: |
         flutter pub get
         flutter build apk --release
