@@ -767,7 +767,7 @@ class MapViewState extends State<MapView>
     showAboutDialog(
       context: context,
       applicationName: "Ajiputra-project GPS",
-      applicationVersion: "2.1.0",
+      applicationVersion: "1.0.0",
       applicationIcon: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Image.asset(

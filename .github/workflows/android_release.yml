@@ -42,7 +42,7 @@ jobs:
 
     - name: Compute Release Tag
       id: tag
-      run: echo "name=release-$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
+      run: echo "name=v1.0.0-build$(date +'%Y%m%d%H%M')" >> $GITHUB_OUTPUT
 
     - name: Stamp Build Tag Into Source
       run: |
