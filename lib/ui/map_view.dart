@@ -819,9 +819,9 @@ class MapViewState extends State<MapView>
 
   Widget _buildBottomPanel(BuildContext context, AppState appState) {
     final showRoutePanel = appState.routeMode || appState.isNavigating;
-    final defaultExtent = showRoutePanel ? .58 : .34;
-    const minExtent = .055;
-    const maxExtent = .94;
+    final defaultExtent = showRoutePanel ? .68 : .46;
+    const minExtent = .10;
+    const maxExtent = .95;
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: (notification) {
         if ((_sheetExtent - notification.extent).abs() > .01) {
@@ -843,7 +843,7 @@ class MapViewState extends State<MapView>
             color: Theme.of(context).colorScheme.surface,
             clipBehavior: Clip.antiAlias,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
             ),
             child: CustomScrollView(
               controller: scrollController,
@@ -854,22 +854,27 @@ class MapViewState extends State<MapView>
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
-                        width: 40,
-                        height: 4,
+                        width: 44,
+                        height: 5,
                         decoration: BoxDecoration(
                           color: Theme.of(context)
                               .colorScheme
                               .onSurfaceVariant
                               .withValues(alpha: .4),
-                          borderRadius: BorderRadius.circular(2),
+                          borderRadius: BorderRadius.circular(3),
                         ),
                       ),
                     ),
                   ),
                 ),
-                if (_sheetExtent > minExtent + .025)
+                if (_sheetExtent > minExtent - .02)
                   SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(16, 2, 16, 12),
+                    padding: EdgeInsets.fromLTRB(
+                      16,
+                      2,
+                      16,
+                      32 + MediaQuery.of(context).padding.bottom,
+                    ),
                     sliver: SliverToBoxAdapter(
                       child: SafeArea(
                         top: false,
@@ -954,76 +959,146 @@ class MapViewState extends State<MapView>
 
   Widget _buildFixedControls(BuildContext context, AppState appState) {
     final location = appState.currentLocation;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           appState.currentAddress,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           textAlign: TextAlign.center,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 6),
         if (location != null)
-          Tooltip(
-            message: "Copy coordinates",
-            child: ActionChip(
-              avatar: const Icon(Icons.copy, size: 14),
-              label: Text(
-                "${location.latitude.toStringAsFixed(5)}, "
-                "${location.longitude.toStringAsFixed(5)}",
-                style: Theme.of(context).textTheme.bodySmall,
+          InkWell(
+            onTap: () => _copyCoordinates(context, location),
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: (isDark ? const Color(0xFF1E293B) : Colors.grey.shade100),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: const Color(0xFF00B4D8).withValues(alpha: 0.3),
+                  width: 1,
+                ),
               ),
-              visualDensity: VisualDensity.compact,
-              onPressed: () => _copyCoordinates(context, location),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.copy_rounded, size: 13, color: Color(0xFF00B4D8)),
+                  const SizedBox(width: 6),
+                  Text(
+                    "${location.latitude.toStringAsFixed(5)}, ${location.longitude.toStringAsFixed(5)}",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.85),
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         else
           Text("—", style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         Row(
           children: [
-            IconButton.filledTonal(
-              tooltip: "Save as favorite",
-              iconSize: 22,
-              style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
-              icon: const Icon(Icons.favorite_border),
-              onPressed: location == null
-                  ? null
-                  : () => showDialog(
-                        context: context,
-                        builder: (_) => const SaveFavoriteDialog(),
-                      ),
+            Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1E293B) : Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: IconButton(
+                tooltip: "Save as favorite",
+                iconSize: 22,
+                icon: const Icon(Icons.favorite_border_rounded),
+                onPressed: location == null
+                    ? null
+                    : () => showDialog(
+                          context: context,
+                          builder: (_) => const SaveFavoriteDialog(),
+                        ),
+              ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
             Expanded(
-              child: FilledButton.icon(
-                onPressed: () => _toggleMocking(context),
-                icon: Icon(appState.isMocking ? Icons.stop : Icons.play_arrow),
-                label: Text(
-                  appState.isMocking ? "STOP MOCKING" : "START MOCKING",
+              child: Container(
+                height: 52,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: LinearGradient(
+                    colors: appState.isMocking
+                        ? [const Color(0xFFDC2626), const Color(0xFFEF4444)]
+                        : [const Color(0xFF059669), const Color(0xFF10B981)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: (appState.isMocking
+                              ? const Color(0xFFEF4444)
+                              : const Color(0xFF10B981))
+                          .withValues(alpha: 0.4),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                style: FilledButton.styleFrom(
-                  backgroundColor: appState.isMocking
-                      ? Colors.red.shade700
-                      : Colors.green.shade700,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(0, 48),
+                child: ElevatedButton.icon(
+                  onPressed: () => _toggleMocking(context),
+                  icon: Icon(
+                    appState.isMocking ? Icons.stop_rounded : Icons.play_arrow_rounded,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  label: Text(
+                    appState.isMocking ? "STOP MOCKING" : "START MOCKING",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.8,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(width: 10),
-            IconButton.filledTonal(
-              tooltip: "Share location",
-              iconSize: 22,
-              style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
-              icon: const Icon(Icons.share),
-              onPressed:
-                  location == null ? null : () => _shareLocation(appState),
+            const SizedBox(width: 12),
+            Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1E293B) : Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: IconButton(
+                tooltip: "Share location",
+                iconSize: 22,
+                icon: const Icon(Icons.share_rounded),
+                onPressed: location == null ? null : () => _shareLocation(appState),
+              ),
             ),
           ],
         ),
+        const SizedBox(height: 12),
       ],
     );
   }

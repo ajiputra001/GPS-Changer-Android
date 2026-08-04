@@ -58,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: IndexedStack(index: _index, children: pages),
       bottomNavigationBar: NavigationBar(
+        elevation: 6,
+        height: 68,
         selectedIndex: _index,
         onDestinationSelected: (value) {
           setState(() => _index = value);
