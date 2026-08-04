@@ -43,13 +43,13 @@ android {
                 storeFile = kFile
                 storePassword = keystoreProperties.getProperty("storePassword")
                     ?: System.getenv("STORE_PASSWORD")
+                    ?: "android"
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                     ?: System.getenv("KEY_ALIAS")
                     ?: "upload"
                 keyPassword = keystoreProperties.getProperty("keyPassword")
                     ?: System.getenv("KEY_PASSWORD")
-            } else {
-                initWith(getByName("debug"))
+                    ?: "android"
             }
         }
     }

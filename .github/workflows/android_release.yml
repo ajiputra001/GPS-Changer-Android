@@ -28,10 +28,16 @@ jobs:
         channel: 'stable'
         cache: true
 
-    - name: Download Android Keystore (Optional)
+    - name: Ensure Android Keystore Exists
       run: |
         if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+        elif [ ! -f android/app/upload-keystore.jks ]; then
+          keytool -genkey -v -keystore android/app/upload-keystore.jks \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -alias upload \
+            -dname "CN=Ajiputra, OU=Dev, O=AjiputraTech, L=City, S=State, C=ID" \
+            -storepass android -keypass android
         fi
 
     - name: Build Android Universal APK
