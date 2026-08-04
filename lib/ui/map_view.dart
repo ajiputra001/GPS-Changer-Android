@@ -385,7 +385,7 @@ class MapViewState extends State<MapView>
       left: 16,
       right: 16,
       child: Column(
-        crossAxisAlignment: CrossAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildWatermarkOverlay(context),
           const SizedBox(height: 8),
@@ -435,7 +435,7 @@ class MapViewState extends State<MapView>
           ),
           const SizedBox(width: 8),
           Column(
-            crossAxisAlignment: CrossAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
