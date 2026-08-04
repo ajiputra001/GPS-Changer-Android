@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpdateInfo {
@@ -20,10 +19,19 @@ class UpdateInfo {
 class UpdateService {
   static const String repoOwner = 'ajiputra001';
   static const String repoName = 'GPS-Changer-Android';
-  static const String currentVersion = '2.1.0';
+
+  /// This value is automatically replaced at build time by the GitHub Actions
+  /// workflow. When running locally it stays as the literal placeholder and
+  /// the update check is skipped so developers are never bothered.
+  static const String buildTag = 'LOCAL_DEV';
 
   /// Checks GitHub latest release API for any newer version.
+  /// Returns non-null only when the remote tag differs from the embedded
+  /// [buildTag] *and* buildTag is not the local-dev placeholder.
   static Future<UpdateInfo?> checkLatestRelease() async {
+    // Skip update checks for local/debug builds that were never stamped.
+    if (buildTag == 'LOCAL_DEV') return null;
+
     try {
       final url = Uri.parse(
         'https://api.github.com/repos/$repoOwner/$repoName/releases/latest',
@@ -35,29 +43,34 @@ class UpdateService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
         final String tagName = (data['tag_name'] ?? '').toString();
-        final String body = (data['body'] ?? 'Pembaruan aplikasi terbaru telah rilis di GitHub.').toString();
-        final String htmlUrl = (data['html_url'] ?? 'https://github.com/$repoOwner/$repoName/releases').toString();
+        final String body = (data['body'] ??
+                'Pembaruan aplikasi terbaru telah rilis di GitHub.')
+            .toString();
+        final String htmlUrl = (data['html_url'] ??
+                'https://github.com/$repoOwner/$repoName/releases')
+            .toString();
 
-        String directDownloadUrl = 'https://github.com/$repoOwner/$repoName/releases/latest/download/Ajiputra-project-GPS.apk';
-        
+        String directDownloadUrl =
+            'https://github.com/$repoOwner/$repoName/releases/latest/download/Ajiputra-project-GPS.apk';
+
         final assets = data['assets'] as List?;
         if (assets != null) {
           for (final asset in assets) {
             if (asset is Map) {
               final name = (asset['name'] ?? '').toString();
               if (name.endsWith('.apk')) {
-                directDownloadUrl = (asset['browser_download_url'] ?? directDownloadUrl).toString();
+                directDownloadUrl =
+                    (asset['browser_download_url'] ?? directDownloadUrl)
+                        .toString();
                 break;
               }
             }
           }
         }
 
-        // Compare version tag with current installed version
-        final prefs = await SharedPreferences.getInstance();
-        final lastSeenTag = prefs.getString('last_installed_tag') ?? '';
-
-        if (tagName.isNotEmpty && tagName != lastSeenTag) {
+        // Only prompt when the remote tag is genuinely different from the
+        // tag that was baked into this APK at build time.
+        if (tagName.isNotEmpty && tagName != buildTag) {
           return UpdateInfo(
             version: tagName,
             releaseNotes: body,
@@ -67,12 +80,12 @@ class UpdateService {
         }
       }
     } catch (_) {
-      // Network failure or timeout - silent catch
+      // Network failure or timeout — silent catch
     }
     return null;
   }
 
-  /// Opens the download link or browser installer.
+  /// Opens the download link in the external browser / package installer.
   static Future<void> launchDownload(String urlString) async {
     final uri = Uri.parse(urlString);
     try {
@@ -82,11 +95,5 @@ class UpdateService {
     } catch (_) {
       await launchUrl(uri, mode: LaunchMode.platformDefault);
     }
-  }
-
-  /// Save installed version tag after updating.
-  static Future<void> saveCurrentTag(String tag) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('last_installed_tag', tag);
   }
 }

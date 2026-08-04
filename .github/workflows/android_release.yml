@@ -40,6 +40,16 @@ jobs:
             -storepass android -keypass android
         fi
 
+    - name: Compute Release Tag
+      id: tag
+      run: echo "name=release-$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
+
+    - name: Stamp Build Tag Into Source
+      run: |
+        sed -i "s|static const String buildTag = 'LOCAL_DEV';|static const String buildTag = '${{ steps.tag.outputs.name }}';|g" lib/services/update_service.dart
+        echo "Stamped buildTag = '${{ steps.tag.outputs.name }}'"
+        grep buildTag lib/services/update_service.dart
+
     - name: Build Android Universal APK
       env:
         STORE_PASSWORD: ${{ secrets.STORE_PASSWORD || 'android' }}
@@ -52,15 +62,11 @@ jobs:
     - name: Rename APK
       run: mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/Ajiputra-project-GPS.apk"
 
-    - name: Get Date & Timestamp
-      id: info
-      run: echo "date=$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
-
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: release-${{ steps.info.outputs.date }}
-        name: Ajiputra-project GPS Release ${{ steps.info.outputs.date }}
+        tag_name: ${{ steps.tag.outputs.name }}
+        name: Ajiputra-project GPS Release ${{ steps.tag.outputs.name }}
         files: "build/app/outputs/flutter-apk/Ajiputra-project-GPS.apk"
         draft: false
         prerelease: false
