@@ -2,12 +2,7 @@ name: Android Release
 
 on:
   push:
-    branches: [ "main", "dev" ]
-    paths:
-      - 'lib/**'
-      - 'android/**'
-      - 'pubspec.yaml'
-      # - '.github/workflows/**'
+    branches: [ "main", "master", "dev" ]
   workflow_dispatch:
 
 permissions:
@@ -18,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 17
       uses: actions/setup-java@v3
@@ -33,35 +28,34 @@ jobs:
         channel: 'stable'
         cache: true
 
-    - name: Download Android Keystore
+    - name: Download Android Keystore (Optional)
       run: |
-        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
-      
+        if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+        fi
+
     - name: Build Android Universal APK
       env:
         STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-      run: flutter pub get && flutter build apk --release
+      run: |
+        flutter pub get
+        flutter build apk --release
 
     - name: Rename APK
-      run: mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/GPS Mock-Universal.apk"
+      run: mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/Ajiputra-project-GPS.apk"
 
-    - name: Get Date
-      id: date
-      run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-
-    - name: Get Version
-      id: version
-      run: echo "version=${{ steps.date.outputs.date }}-${{ github.run_number }}" >> $GITHUB_OUTPUT
+    - name: Get Date & Timestamp
+      id: info
+      run: echo "date=$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/') != true # Create release for main push or dispatch
       with:
-        tag_name: v${{ steps.version.outputs.version }}
-        name: Stable Release v${{ steps.version.outputs.version }}
-        files: "build/app/outputs/flutter-apk/GPS Mock-Universal.apk"
+        tag_name: release-${{ steps.info.outputs.date }}
+        name: Ajiputra-project GPS Release ${{ steps.info.outputs.date }}
+        files: "build/app/outputs/flutter-apk/Ajiputra-project-GPS.apk"
         draft: false
         prerelease: false
       env:

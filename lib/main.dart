@@ -15,7 +15,7 @@ class MockGpsApp extends StatelessWidget {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       child: MaterialApp(
-        title: 'Mock GPS',
+        title: 'Ajiputra-project GPS',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(

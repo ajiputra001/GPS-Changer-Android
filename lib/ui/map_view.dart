@@ -385,7 +385,10 @@ class MapViewState extends State<MapView>
       left: 16,
       right: 16,
       child: Column(
+        crossAxisAlignment: CrossAlignment.start,
         children: [
+          _buildWatermarkOverlay(context),
+          const SizedBox(height: 8),
           if (appState.isMockLocationApp == false) ...[
             _buildSetupBanner(context),
             const SizedBox(height: 8),
@@ -395,6 +398,64 @@ class MapViewState extends State<MapView>
               alignment: Alignment.centerLeft,
               child: _buildMockingBadge(context, appState),
             ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWatermarkOverlay(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: (isDark ? const Color(0xFF1E293B) : Colors.white).withValues(alpha: 0.90),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(color: Colors.black26, blurRadius: 6, offset: Offset(0, 2)),
+        ],
+        border: Border.all(
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.gps_fixed,
+              size: 12,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Ajiputra-project GPS",
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              Text(
+                "Dev: Ajiputra-tech • Builder: Agung maulana",
+                style: TextStyle(
+                  fontSize: 9,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -663,7 +724,7 @@ class MapViewState extends State<MapView>
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.info_outline),
-                  title: Text("About GPS Mock"),
+                  title: Text("About Ajiputra-project GPS"),
                 ),
               ),
             ],
@@ -676,16 +737,16 @@ class MapViewState extends State<MapView>
   void _showAbout(BuildContext context) {
     showAboutDialog(
       context: context,
-      applicationName: "GPS Mock",
+      applicationName: "Ajiputra-project GPS",
       applicationVersion: "2.1.0",
       applicationIcon: const Icon(Icons.location_pin, size: 40),
       children: const [
         Text(
-          "GPS Mock spoofs your device's location and simulates trips "
-          "along real roads. It is the testing companion for My Globe, "
-          "a maps & navigation project.\n\n"
-          "Maps © OpenStreetMap contributors and other free providers. "
-          "Search by Photon, routing by OSRM — all free, keyless services.",
+          "Ajiputra-project GPS - Android Location Spoofing & Route Simulator.\n\n"
+          "Developer: Ajiputra-tech\n"
+          "Builder: Agung maulana\n\n"
+          "Maps © OpenStreetMap contributors and free providers. "
+          "Search by Photon, routing by OSRM.",
         ),
       ],
     );
