@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 
 import 'package:gps_mock/services/update_service.dart';
 import 'package:gps_mock/ui/update_dialog.dart';
+import 'package:gps_mock/services/broadcast_service.dart';
+import 'package:gps_mock/ui/broadcast_dialog.dart';
 
 /// App shell: a persistent map with a bottom navigation bar for the Saved
 /// and History tabs. Selecting a location from either tab drives the map and
@@ -33,9 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _checkForUpdates() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final info = await UpdateService.checkLatestRelease();
-      if (info != null && mounted) {
-        UpdateDialog.show(context, updateInfo: info, isForce: true);
+      final updateInfo = await UpdateService.checkLatestRelease();
+      if (updateInfo != null && mounted) {
+        UpdateDialog.show(context, updateInfo: updateInfo, isForce: true);
+        return;
+      }
+
+      final broadcastInfo = await BroadcastService.checkLatestBroadcast();
+      if (broadcastInfo != null && mounted) {
+        BroadcastDialog.show(context, info: broadcastInfo);
       }
     });
   }
