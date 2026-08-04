@@ -1,4 +1,4 @@
-package com.sriharan.gps_mock.widgets
+package com.ajiputratech.gpsmock.widgets
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -7,10 +7,10 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.sriharan.gps_mock.MainActivity
-import com.sriharan.gps_mock.MockControlActivity
-import com.sriharan.gps_mock.MockStateStore
-import com.sriharan.gps_mock.R
+import com.ajiputratech.gpsmock.MainActivity
+import com.ajiputratech.gpsmock.MockControlActivity
+import com.ajiputratech.gpsmock.MockStateStore
+import com.ajiputratech.gpsmock.R
 
 /**
  * Home-screen widget bound to one saved favorite (chosen when the widget is

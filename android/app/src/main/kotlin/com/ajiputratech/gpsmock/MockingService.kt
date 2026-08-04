@@ -1,4 +1,4 @@
-package com.sriharan.gps_mock
+package com.ajiputratech.gpsmock
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -19,9 +19,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import androidx.core.app.NotificationCompat
-import com.sriharan.gps_mock.tiles.BaseFavoriteTileService
-import com.sriharan.gps_mock.widgets.FavoriteWidgetProvider
-import com.sriharan.gps_mock.widgets.NavigationWidgetProvider
+import com.ajiputratech.gpsmock.tiles.BaseFavoriteTileService
+import com.ajiputratech.gpsmock.widgets.FavoriteWidgetProvider
+import com.ajiputratech.gpsmock.widgets.NavigationWidgetProvider
 import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONObject

@@ -8,7 +8,7 @@ class AppConstants {
       "location testing tool for the My Globe navigation app)";
 
   /// Package name sent as the User-Agent by the flutter_map tile layer.
-  static const String tileUserAgentPackage = "com.sriharan.gps_mock";
+  static const String tileUserAgentPackage = "com.ajiputratech.gpsmock";
 
   /// OpenStreetMap raster tiles — free, no API key or account required.
   static const String osmTileUrl = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";

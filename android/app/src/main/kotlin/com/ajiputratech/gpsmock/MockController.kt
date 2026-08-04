@@ -1,4 +1,4 @@
-package com.sriharan.gps_mock
+package com.ajiputratech.gpsmock
 
 import android.content.Context
 import android.content.Intent

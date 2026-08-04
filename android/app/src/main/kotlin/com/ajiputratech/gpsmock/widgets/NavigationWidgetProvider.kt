@@ -1,4 +1,4 @@
-package com.sriharan.gps_mock.widgets
+package com.ajiputratech.gpsmock.widgets
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -9,9 +9,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.view.View
 import android.widget.RemoteViews
-import com.sriharan.gps_mock.MainActivity
-import com.sriharan.gps_mock.MockingService
-import com.sriharan.gps_mock.R
+import com.ajiputratech.gpsmock.MainActivity
+import com.ajiputratech.gpsmock.MockingService
+import com.ajiputratech.gpsmock.R
 
 /**
  * Home-screen widget showing the state of a running mock route: remaining

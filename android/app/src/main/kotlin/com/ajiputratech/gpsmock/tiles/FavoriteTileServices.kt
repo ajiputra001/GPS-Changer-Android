@@ -1,4 +1,4 @@
-package com.sriharan.gps_mock.tiles
+package com.ajiputratech.gpsmock.tiles
 
 import android.app.PendingIntent
 import android.content.ComponentName
@@ -7,9 +7,9 @@ import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import com.sriharan.gps_mock.MockControlActivity
-import com.sriharan.gps_mock.MockController
-import com.sriharan.gps_mock.MockStateStore
+import com.ajiputratech.gpsmock.MockControlActivity
+import com.ajiputratech.gpsmock.MockController
+import com.ajiputratech.gpsmock.MockStateStore
 
 /**
  * Quick-settings tiles: one per saved favorite (first four, in list order).

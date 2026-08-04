@@ -1,4 +1,4 @@
-package com.sriharan.gps_mock.widgets
+package com.ajiputratech.gpsmock.widgets
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
-import com.sriharan.gps_mock.MockStateStore
+import com.ajiputratech.gpsmock.MockStateStore
 
 /** Shown when a favorite widget is placed: pick which saved location the
  *  widget controls. */

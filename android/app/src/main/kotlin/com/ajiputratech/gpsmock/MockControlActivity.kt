@@ -1,4 +1,4 @@
-package com.sriharan.gps_mock
+package com.ajiputratech.gpsmock
 
 import android.app.Activity
 import android.content.Intent
@@ -46,8 +46,8 @@ class MockControlActivity : Activity() {
     }
 
     companion object {
-        const val ACTION_TOGGLE_FAVORITE = "com.sriharan.gps_mock.TOGGLE_FAVORITE"
-        const val ACTION_STOP_MOCK = "com.sriharan.gps_mock.STOP_MOCK"
+        const val ACTION_TOGGLE_FAVORITE = "com.ajiputratech.gpsmock.TOGGLE_FAVORITE"
+        const val ACTION_STOP_MOCK = "com.ajiputratech.gpsmock.STOP_MOCK"
         const val EXTRA_FAVORITE_ID = "FAVORITE_ID"
     }
 }

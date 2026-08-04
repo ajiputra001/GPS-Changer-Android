@@ -1,4 +1,4 @@
-package com.sriharan.gps_mock
+package com.ajiputratech.gpsmock
 
 import android.app.AppOpsManager
 import android.content.Context
@@ -73,8 +73,8 @@ class MainActivity : FlutterActivity() {
                     if (json != null) {
                         MockStateStore.setFavoritesJson(this, json)
                         // Tiles and widgets mirror the favorites list.
-                        com.sriharan.gps_mock.tiles.BaseFavoriteTileService.refreshAll(this)
-                        com.sriharan.gps_mock.widgets.FavoriteWidgetProvider.refreshAll(this)
+                        com.ajiputratech.gpsmock.tiles.BaseFavoriteTileService.refreshAll(this)
+                        com.ajiputratech.gpsmock.widgets.FavoriteWidgetProvider.refreshAll(this)
                     }
                     result.success(null)
                 }
