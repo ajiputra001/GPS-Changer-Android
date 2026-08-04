@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,19 +33,23 @@ class UpdateService {
       }).timeout(const Duration(seconds: 8));
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final Map<String, dynamic> data = json.decode(response.body);
         final String tagName = (data['tag_name'] ?? '').toString();
         final String body = (data['body'] ?? 'Pembaruan aplikasi terbaru telah rilis di GitHub.').toString();
         final String htmlUrl = (data['html_url'] ?? 'https://github.com/$repoOwner/$repoName/releases').toString();
 
         String directDownloadUrl = 'https://github.com/$repoOwner/$repoName/releases/latest/download/Ajiputra-project-GPS.apk';
         
-        final List assets = data['assets'] ?? [];
-        for (final asset in assets) {
-          final name = (asset['name'] ?? '').toString();
-          if (name.endsWith('.apk')) {
-            directDownloadUrl = (asset['browser_download_url'] ?? directDownloadUrl).toString();
-            break;
+        final assets = data['assets'] as List?;
+        if (assets != null) {
+          for (final asset in assets) {
+            if (asset is Map) {
+              final name = (asset['name'] ?? '').toString();
+              if (name.endsWith('.apk')) {
+                directDownloadUrl = (asset['browser_download_url'] ?? directDownloadUrl).toString();
+                break;
+              }
+            }
           }
         }
 
@@ -72,7 +75,11 @@ class UpdateService {
   /// Opens the download link or browser installer.
   static Future<void> launchDownload(String urlString) async {
     final uri = Uri.parse(urlString);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+    try {
+      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+        await launchUrl(uri, mode: LaunchMode.platformDefault);
+      }
+    } catch (_) {
       await launchUrl(uri, mode: LaunchMode.platformDefault);
     }
   }

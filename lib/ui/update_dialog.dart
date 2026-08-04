@@ -42,10 +42,10 @@ class UpdateDialog extends StatelessWidget {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: const Color(0xFF00B4D8).withOpacity(0.15),
+                color: const Color(0xFF00B4D8).withValues(alpha: 0.15),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: const Color(0xFF00B4D8).withOpacity(0.4),
+                  color: const Color(0xFF00B4D8).withValues(alpha: 0.4),
                   width: 2,
                 ),
               ),
@@ -69,7 +69,7 @@ class UpdateDialog extends StatelessWidget {
               "Versi baru ${updateInfo.version} telah dirilis di GitHub dengan fitur & perbaikan terbaru.",
               style: TextStyle(
                 fontSize: 13,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.75),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75),
               ),
               textAlign: TextAlign.center,
             ),
@@ -86,7 +86,7 @@ class UpdateDialog extends StatelessWidget {
                   updateInfo.releaseNotes,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.85),
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.85),
                   ),
                 ),
               ),
@@ -105,7 +105,7 @@ class UpdateDialog extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF00B4D8).withOpacity(0.4),
+                      color: const Color(0xFF00B4D8).withValues(alpha: 0.4),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
