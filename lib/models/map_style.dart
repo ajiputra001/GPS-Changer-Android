@@ -1,4 +1,13 @@
-enum MapStyleId { standard, humanitarian, topographic, satellite, dark }
+enum MapStyleId {
+  googleStreets,
+  googleSatellite,
+  googleTerrain,
+  standard,
+  humanitarian,
+  topographic,
+  satellite,
+  dark,
+}
 
 /// A selectable base-map style. Every entry is a free, keyless tile service;
 /// the [attribution] must stay visible whenever the style is shown.
@@ -22,6 +31,30 @@ class MapStyle {
   });
 
   static const List<MapStyle> all = [
+    MapStyle(
+      id: MapStyleId.googleStreets,
+      name: "Google Streets",
+      description: "Official Google Maps road & landmark view",
+      urlTemplate: "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+      attribution: "© Google Maps",
+      maxZoom: 20,
+    ),
+    MapStyle(
+      id: MapStyleId.googleSatellite,
+      name: "Google Satellite",
+      description: "High-res Google aerial imagery with street labels",
+      urlTemplate: "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+      attribution: "© Google Maps",
+      maxZoom: 20,
+    ),
+    MapStyle(
+      id: MapStyleId.googleTerrain,
+      name: "Google Terrain",
+      description: "Google Maps terrain, elevation & physical features",
+      urlTemplate: "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+      attribution: "© Google Maps",
+      maxZoom: 20,
+    ),
     MapStyle(
       id: MapStyleId.standard,
       name: "Standard",
@@ -52,8 +85,8 @@ class MapStyle {
     ),
     MapStyle(
       id: MapStyleId.satellite,
-      name: "Satellite",
-      description: "Aerial imagery (Esri)",
+      name: "Satellite (Esri)",
+      description: "Aerial imagery (Esri World Imagery)",
       urlTemplate:
           "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       attribution: "© Esri · Maxar · Earthstar Geographics",
@@ -61,8 +94,8 @@ class MapStyle {
     ),
     MapStyle(
       id: MapStyleId.dark,
-      name: "Dark",
-      description: "Google-like night streets with clear labels",
+      name: "Dark Mode",
+      description: "Night mode streets with clear labels",
       urlTemplate:
           "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
       subdomains: ["a", "b", "c", "d"],

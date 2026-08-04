@@ -819,9 +819,11 @@ class MapViewState extends State<MapView>
 
   Widget _buildBottomPanel(BuildContext context, AppState appState) {
     final showRoutePanel = appState.routeMode || appState.isNavigating;
-    final defaultExtent = showRoutePanel ? .68 : .46;
-    const minExtent = .10;
+    final defaultExtent = showRoutePanel ? .68 : .48;
+    const minExtent = .09;
     const maxExtent = .95;
+    final isCollapsed = _sheetExtent < (minExtent + .08);
+
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: (notification) {
         if ((_sheetExtent - notification.extent).abs() > .01) {
@@ -831,11 +833,11 @@ class MapViewState extends State<MapView>
       },
       child: DraggableScrollableSheet(
         controller: _sheetController,
-        initialChildSize: defaultExtent,
+        initialChildSize: minExtent,
         minChildSize: minExtent,
         maxChildSize: maxExtent,
         snap: true,
-        snapSizes: [minExtent, defaultExtent, maxExtent],
+        snapSizes: const [minExtent, .48, .68, maxExtent],
         snapAnimationDuration: const Duration(milliseconds: 240),
         builder: (context, scrollController) {
           return Material(
@@ -843,31 +845,115 @@ class MapViewState extends State<MapView>
             color: Theme.of(context).colorScheme.surface,
             clipBehavior: Clip.antiAlias,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
             child: CustomScrollView(
               controller: scrollController,
               physics: const ClampingScrollPhysics(),
               slivers: [
                 SliverToBoxAdapter(
-                  child: Center(
+                  child: InkWell(
+                    onTap: () {
+                      final target = isCollapsed ? defaultExtent : minExtent;
+                      _sheetController.animateTo(
+                        target,
+                        duration: const Duration(milliseconds: 240),
+                        curve: Curves.easeInOut,
+                      );
+                    },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Container(
-                        width: 44,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurfaceVariant
-                              .withValues(alpha: .4),
-                          borderRadius: BorderRadius.circular(3),
-                        ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
+                            child: Container(
+                              width: 44,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant
+                                    .withValues(alpha: .4),
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          if (isCollapsed)
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on_rounded,
+                                  size: 20,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    appState.currentAddress.isEmpty
+                                        ? "Select location on map"
+                                        : appState.currentAddress,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                SizedBox(
+                                  height: 36,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () => _toggleMocking(context),
+                                    icon: Icon(
+                                      appState.isMocking
+                                          ? Icons.stop_rounded
+                                          : Icons.play_arrow_rounded,
+                                      size: 18,
+                                      color: Colors.white,
+                                    ),
+                                    label: Text(
+                                      appState.isMocking ? "STOP" : "START",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: appState.isMocking
+                                          ? const Color(0xFFDC2626)
+                                          : const Color(0xFF10B981),
+                                      elevation: 0,
+                                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                IconButton(
+                                  tooltip: "Expand panel",
+                                  icon: const Icon(Icons.keyboard_arrow_up_rounded, size: 24),
+                                  onPressed: () {
+                                    _sheetController.animateTo(
+                                      defaultExtent,
+                                      duration: const Duration(milliseconds: 240),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-                if (_sheetExtent > minExtent - .02)
+                if (!isCollapsed)
                   SliverPadding(
                     padding: EdgeInsets.fromLTRB(
                       16,
@@ -889,6 +975,18 @@ class MapViewState extends State<MapView>
                                   tooltip: "Go to my real location",
                                   onPressed: () => _goToMyLocation(context),
                                   child: const Icon(Icons.my_location),
+                                ),
+                                const SizedBox(width: 8),
+                                IconButton.filledTonal(
+                                  tooltip: "Collapse panel",
+                                  icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 22),
+                                  onPressed: () {
+                                    _sheetController.animateTo(
+                                      minExtent,
+                                      duration: const Duration(milliseconds: 240),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
                                 ),
                               ],
                             ),
