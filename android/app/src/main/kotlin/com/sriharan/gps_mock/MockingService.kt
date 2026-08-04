@@ -180,7 +180,7 @@ class MockingService : Service() {
 
             while (isActive) {
                 pushMockLocation(locationManager, lat, lng, bearing = 0f, speedMps = 0f)
-                delay(1000)
+                delay(300)
             }
         }
     }
@@ -447,27 +447,35 @@ class MockingService : Service() {
 
     // ------------------------------------------------------------- providers
 
+    private val PROVIDERS = listOf(
+        LocationManager.GPS_PROVIDER,
+        LocationManager.NETWORK_PROVIDER,
+        "fused"
+    )
+
     private fun installTestProvider(locationManager: LocationManager) {
-        try {
-            locationManager.addTestProvider(
-                PROVIDER,
-                false, // requiresNetwork
-                false, // requiresSatellite
-                false, // requiresCell
-                false, // hasMonetaryCost
-                true,  // supportsAltitude
-                true,  // supportsSpeed
-                true,  // supportsBearing
-                ProviderProperties.POWER_USAGE_LOW,
-                ProviderProperties.ACCURACY_FINE
-            )
-        } catch (e: Exception) {
-            // Provider might already exist or not allowed
-        }
-        try {
-            locationManager.setTestProviderEnabled(PROVIDER, true)
-        } catch (e: Exception) {
-            // Ignore
+        for (provider in PROVIDERS) {
+            try {
+                locationManager.addTestProvider(
+                    provider,
+                    false, // requiresNetwork
+                    false, // requiresSatellite
+                    false, // requiresCell
+                    false, // hasMonetaryCost
+                    true,  // supportsAltitude
+                    true,  // supportsSpeed
+                    true,  // supportsBearing
+                    ProviderProperties.POWER_USAGE_LOW,
+                    ProviderProperties.ACCURACY_FINE
+                )
+            } catch (e: Exception) {
+                // Provider might already exist or not allowed
+            }
+            try {
+                locationManager.setTestProviderEnabled(provider, true)
+            } catch (e: Exception) {
+                // Ignore
+            }
         }
     }
 
@@ -478,30 +486,29 @@ class MockingService : Service() {
         bearing: Float,
         speedMps: Float,
     ) {
-        val mockLocation = Location(PROVIDER).apply {
-            latitude = lat
-            longitude = lng
-            altitude = 10.0
-            time = System.currentTimeMillis()
-            speed = speedMps
-            this.bearing = bearing
-            accuracy = 1.0f
-            elapsedRealtimeNanos = SystemClock.elapsedRealtimeNanos()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                bearingAccuracyDegrees = 0.1f
-                verticalAccuracyMeters = 0.1f
-                speedAccuracyMetersPerSecond = 0.1f
+        for (provider in PROVIDERS) {
+            val mockLocation = Location(provider).apply {
+                latitude = lat
+                longitude = lng
+                altitude = 10.0
+                time = System.currentTimeMillis()
+                speed = speedMps
+                this.bearing = bearing
+                accuracy = 0.5f
+                elapsedRealtimeNanos = SystemClock.elapsedRealtimeNanos()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    bearingAccuracyDegrees = 0.1f
+                    verticalAccuracyMeters = 0.1f
+                    speedAccuracyMetersPerSecond = 0.1f
+                }
             }
-        }
-        try {
-            locationManager.setTestProviderLocation(PROVIDER, mockLocation)
-        } catch (e: SecurityException) {
-            // Android refused the mock push — almost always because the app
-            // is not (or no longer) selected as the mock location app. Tell
-            // the user immediately instead of pretending to mock.
-            onMockPushRejected()
-        } catch (e: Exception) {
-            // Transient failure — keep trying.
+            try {
+                locationManager.setTestProviderLocation(provider, mockLocation)
+            } catch (e: SecurityException) {
+                onMockPushRejected()
+            } catch (e: Exception) {
+                // Transient failure — keep trying.
+            }
         }
     }
 
@@ -567,9 +574,11 @@ class MockingService : Service() {
         job?.cancel()
         status = null
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        try {
-            locationManager.removeTestProvider(PROVIDER)
-        } catch (e: Exception) {}
+        for (provider in PROVIDERS) {
+            try {
+                locationManager.removeTestProvider(provider)
+            } catch (e: Exception) {}
+        }
     }
 
     companion object {
@@ -587,7 +596,6 @@ class MockingService : Service() {
         const val EXTRA_DISTANCE_METERS = "DISTANCE_METERS"
         const val MODE_FIXED = "fixed"
         const val MODE_ROUTE = "route"
-        private const val PROVIDER = LocationManager.GPS_PROVIDER
         private const val NOTIFICATION_ID = 1
         private const val ALERT_NOTIFICATION_ID = 2
         private const val CHANNEL_ID = "mock_gps_channel"

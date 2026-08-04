@@ -19,6 +19,7 @@ import 'package:gps_mock/ui/save_favorite_dialog.dart';
 import 'package:gps_mock/ui/widgets/m3_segmented_control.dart';
 import 'package:gps_mock/services/update_service.dart';
 import 'package:gps_mock/ui/update_dialog.dart';
+import 'package:gps_mock/utils/constants.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
