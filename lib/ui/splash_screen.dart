@@ -44,23 +44,30 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 100,
-                    height: 100,
+                    width: 110,
+                    height: 110,
                     decoration: BoxDecoration(
-                      color: Colors.deepPurple.shade600,
+                      color: const Color(0xFF1E293B),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.deepPurple.withOpacity(0.5),
-                          blurRadius: 20,
+                          color: const Color(0xFF00B4D8).withOpacity(0.4),
+                          blurRadius: 24,
                           spreadRadius: 4,
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.location_on_rounded,
-                      size: 56,
-                      color: Colors.white,
+                    padding: const EdgeInsets.all(16),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(
+                          Icons.location_on_rounded,
+                          size: 56,
+                          color: Colors.white,
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 24),

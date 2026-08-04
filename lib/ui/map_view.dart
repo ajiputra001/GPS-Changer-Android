@@ -421,16 +421,14 @@ class MapViewState extends State<MapView>
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.gps_fixed,
-              size: 12,
-              color: Colors.white,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: Image.asset(
+              'assets/images/logo.png',
+              width: 18,
+              height: 18,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => const Icon(Icons.gps_fixed, size: 12),
             ),
           ),
           const SizedBox(width: 8),
@@ -739,7 +737,16 @@ class MapViewState extends State<MapView>
       context: context,
       applicationName: "Ajiputra-project GPS",
       applicationVersion: "2.1.0",
-      applicationIcon: const Icon(Icons.location_pin, size: 40),
+      applicationIcon: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.asset(
+          'assets/images/logo.png',
+          width: 44,
+          height: 44,
+          fit: BoxFit.contain,
+          errorBuilder: (_, __, ___) => const Icon(Icons.location_pin, size: 40),
+        ),
+      ),
       children: const [
         Text(
           "Ajiputra-project GPS - Android Location Spoofing & Route Simulator.\n\n"
