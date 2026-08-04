@@ -8,6 +8,9 @@ import 'package:gps_mock/ui/saved_tab.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
+import 'package:gps_mock/services/update_service.dart';
+import 'package:gps_mock/ui/update_dialog.dart';
+
 /// App shell: a persistent map with a bottom navigation bar for the Saved
 /// and History tabs. Selecting a location from either tab drives the map and
 /// switches back to it.
@@ -21,6 +24,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<MapViewState> _mapKey = GlobalKey<MapViewState>();
   int _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkForUpdates();
+  }
+
+  Future<void> _checkForUpdates() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final info = await UpdateService.checkLatestRelease();
+      if (info != null && mounted) {
+        UpdateDialog.show(context, updateInfo: info, isForce: true);
+      }
+    });
+  }
 
   void _showMapAt(LatLng target, String address) {
     setState(() => _index = 0);

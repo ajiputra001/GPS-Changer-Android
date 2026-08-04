@@ -17,7 +17,8 @@ import 'package:gps_mock/ui/permissions_sheet.dart';
 import 'package:gps_mock/ui/route_panel.dart';
 import 'package:gps_mock/ui/save_favorite_dialog.dart';
 import 'package:gps_mock/ui/widgets/m3_segmented_control.dart';
-import 'package:gps_mock/utils/constants.dart';
+import 'package:gps_mock/services/update_service.dart';
+import 'package:gps_mock/ui/update_dialog.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -684,6 +685,8 @@ class MapViewState extends State<MapView>
                   MapStyleSheet.show(context);
                 case 'settings':
                   context.read<AppState>().openSettings();
+                case 'update':
+                  _manualCheckUpdate(context);
                 case 'about':
                   _showAbout(context);
               }
@@ -717,6 +720,15 @@ class MapViewState extends State<MapView>
                 ),
               ),
               PopupMenuItem(
+                value: 'update',
+                child: ListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(Icons.system_update_rounded),
+                  title: Text("Check for update"),
+                ),
+              ),
+              PopupMenuItem(
                 value: 'about',
                 child: ListTile(
                   dense: true,
@@ -730,6 +742,24 @@ class MapViewState extends State<MapView>
         ],
       ),
     );
+  }
+
+  Future<void> _manualCheckUpdate(BuildContext context) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Memeriksa pembaruan di GitHub..."),
+        duration: Duration(seconds: 2),
+      ),
+    );
+    final info = await UpdateService.checkLatestRelease();
+    if (!context.mounted) return;
+    if (info != null) {
+      UpdateDialog.show(context, updateInfo: info, isForce: false);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Aplikasi Anda sudah versi terbaru! ✨")),
+      );
+    }
   }
 
   void _showAbout(BuildContext context) {
