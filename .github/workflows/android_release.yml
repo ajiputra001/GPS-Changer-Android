@@ -3,6 +3,12 @@ name: Android Release
 on:
   push:
     branches: [ "main", "master", "dev" ]
+    paths-ignore:
+      - 'broadcast.json'
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:
