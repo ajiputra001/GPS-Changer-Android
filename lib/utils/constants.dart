@@ -18,6 +18,8 @@ class AppConstants {
   static const String osmAttribution = "© OpenStreetMap contributors";
 
   static const String photonBaseUrl = "https://photon.komoot.io/api/";
+  static const String nominatimBaseUrl =
+      "https://nominatim.openstreetmap.org/search";
   static const String osrmRouteBaseUrl =
       "https://router.project-osrm.org/route/v1/driving/";
 }

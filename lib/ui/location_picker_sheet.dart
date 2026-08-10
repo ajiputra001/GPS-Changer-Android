@@ -93,7 +93,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               },
               suggestionsCallback: (pattern) async {
                 _lastQuery = pattern.trim();
-                if (_lastQuery.length < 3) return const <PlaceSuggestion>[];
+                if (_lastQuery.length < 2) return const <PlaceSuggestion>[];
                 return _searchService.search(
                   pattern,
                   near: context.read<AppState>().currentLocation,
@@ -102,9 +102,9 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               emptyBuilder: (context) => Padding(
                 padding: const EdgeInsets.all(12),
                 child: Text(
-                  _lastQuery.length < 3
-                      ? "Type at least 3 characters to search"
-                      : "No places found",
+                  _lastQuery.length < 2
+                      ? "Ketik minimal 2 karakter untuk mencari"
+                      : "Lokasi tidak ditemukan",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),

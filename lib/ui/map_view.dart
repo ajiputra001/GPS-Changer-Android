@@ -611,7 +611,7 @@ class MapViewState extends State<MapView>
               },
               suggestionsCallback: (pattern) async {
                 _lastSearchQuery = pattern.trim();
-                if (_lastSearchQuery.length < 3) {
+                if (_lastSearchQuery.length < 2) {
                   return const <PlaceSuggestion>[];
                 }
                 return _searchService.search(
@@ -632,9 +632,9 @@ class MapViewState extends State<MapView>
               emptyBuilder: (context) => Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  _lastSearchQuery.length < 3
-                      ? "Type at least 3 characters to search"
-                      : "No places found",
+                  _lastSearchQuery.length < 2
+                      ? "Ketik minimal 2 karakter untuk mencari"
+                      : "Lokasi tidak ditemukan",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
