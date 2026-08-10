@@ -35,15 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _checkForUpdates() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final updateInfo = await UpdateService.checkLatestRelease();
-      if (updateInfo != null && mounted) {
-        UpdateDialog.show(context, updateInfo: updateInfo, isForce: true);
-        return;
-      }
-
+      // Check for developer broadcast notification first so notifications & dialogs always trigger
       final broadcastInfo = await BroadcastService.checkLatestBroadcast();
       if (broadcastInfo != null && mounted) {
         BroadcastDialog.show(context, info: broadcastInfo);
+      }
+
+      final updateInfo = await UpdateService.checkLatestRelease();
+      if (updateInfo != null && mounted) {
+        UpdateDialog.show(context, updateInfo: updateInfo, isForce: true);
       }
     });
   }

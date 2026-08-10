@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BroadcastInfo {
@@ -71,6 +72,9 @@ class BroadcastService {
           if ((notificationType == 'status_bar' || notificationType == 'both') &&
               id != lastNotifiedId) {
             try {
+              if (await Permission.notification.isDenied) {
+                await Permission.notification.request();
+              }
               await _platform.invokeMethod('showBroadcastNotification', {
                 'id': id,
                 'title': title,

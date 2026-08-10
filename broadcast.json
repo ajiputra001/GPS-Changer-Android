@@ -1,10 +1,10 @@
 {
-  "id": "notice-005",
+  "id": "notice-004",
   "active": true,
   "notificationType": "both",
-  "badgeText": "NOTIFIKASI ALERT",
+  "badgeText": "PENGUMUMAN PENTING",
   "priority": "high",
-  "title": "Mohon Maaf kepada semua pengguna aplikasi ini 📢",
-  "message": "Karna Ada yang harus di perbarui jadi aplikasinya wajib pembaruan",
+  "title": "Notifikasi Broadcast Siap Digunakan! 🔔",
+  "message": "Sistem Notifikasi Broadcast telah diperbaiki! Pesan pengumuman dari developer kini langsung muncul di status bar HP dan pop-up aplikasi tanpa terblokir.",
   "linkUrl": "https://github.com/ajiputra001/GPS-Changer-Android"
 }
