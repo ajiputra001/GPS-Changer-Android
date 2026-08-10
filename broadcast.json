@@ -1,7 +1,10 @@
 {
-  "id": "notice-001",
+  "id": "notice-002",
   "active": true,
-  "title": "Pesan dari Developer (Ajiputra-tech) 📢",
-  "message": "Selamat datang di Ajiputra-project GPS! Aplikasi telah diperbarui dengan tampilan Google Maps terlengkap & kontrol floating bar modern.",
-  "linkUrl": ""
+  "notificationType": "both",
+  "badgeText": "UPDATE PENTING",
+  "priority": "high",
+  "title": "Pesan Resmi dari Developer (Ajiputra-tech) 🚀",
+  "message": "Aplikasi GPS Mock telah diperbarui ke dukungan Android 10+ (API 29) serta dilengkapi sistem Notifikasi Broadcast Status Bar real-time!",
+  "linkUrl": "https://github.com/ajiputra001/GPS-Changer-Android"
 }

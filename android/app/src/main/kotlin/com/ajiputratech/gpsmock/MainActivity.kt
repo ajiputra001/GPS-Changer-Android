@@ -88,6 +88,27 @@ class MainActivity : FlutterActivity() {
                         result.success(null)
                     }
                 }
+                "showBroadcastNotification" -> {
+                    val id = call.argument<String>("id") ?: ""
+                    val title = call.argument<String>("title") ?: ""
+                    val message = call.argument<String>("message") ?: ""
+                    val linkUrl = call.argument<String>("linkUrl")
+                    val badgeText = call.argument<String>("badgeText")
+
+                    if (id.isNotEmpty() && message.isNotEmpty()) {
+                        NotificationHelper.showBroadcastNotification(
+                            this,
+                            id = id,
+                            title = title,
+                            message = message,
+                            linkUrl = linkUrl,
+                            badgeText = badgeText
+                        )
+                        result.success(true)
+                    } else {
+                        result.error("INVALID_ARGS", "Missing id or message", null)
+                    }
+                }
                 else -> result.notImplemented()
             }
         }
