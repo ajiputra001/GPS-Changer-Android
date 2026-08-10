@@ -4,7 +4,7 @@
   "notificationType": "both",
   "badgeText": "NOTIFIKASI ALERT",
   "priority": "high",
-  "title": "Terimakasih Untuk Para Pengguna Aplikasi ini 📢",
-  "message": "Halo! Ini adalah pesan uji coba broadcast real-time. Fitur notifikasi status bar HP dan pengumuman developer telah aktif dan berfungsi dengan lancar!",
+  "title": "Mohon Maaf kepada semua pengguna aplikasi ini 📢",
+  "message": "Karna Ada yang harus di perbarui jadi aplikasinya wajib pembaruan",
   "linkUrl": "https://github.com/ajiputra001/GPS-Changer-Android"
 }
