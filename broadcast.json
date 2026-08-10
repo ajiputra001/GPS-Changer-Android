@@ -1,10 +1,10 @@
 {
-  "id": "notice-002",
+  "id": "notice-003",
   "active": true,
   "notificationType": "both",
-  "badgeText": "UPDATE PENTING",
+  "badgeText": "UJI COBA BROADCAST",
   "priority": "high",
-  "title": "Pesan Resmi dari Developer (Ajiputra-tech) 🚀",
-  "message": "Aplikasi GPS Mock telah diperbarui ke dukungan Android 10+ (API 29) serta dilengkapi sistem Notifikasi Broadcast Status Bar real-time!",
+  "title": "Uji Coba Notifikasi Broadcast Developer 📢",
+  "message": "Halo! Ini adalah pesan uji coba broadcast real-time. Fitur notifikasi status bar HP dan pengumuman developer telah aktif dan berfungsi dengan lancar!",
   "linkUrl": "https://github.com/ajiputra001/GPS-Changer-Android"
 }
