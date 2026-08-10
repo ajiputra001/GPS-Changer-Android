@@ -44,7 +44,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Signing credentials — never commit these
+# Signing credentials — key.properties stays local, upload-keystore.jks is fixed for release builds
 /android/key.properties
 *.jks
 *.keystore
+!android/app/upload-keystore.jks
