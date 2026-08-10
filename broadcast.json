@@ -1,10 +1,10 @@
 {
-  "id": "notice-003",
+  "id": "notice-004",
   "active": true,
   "notificationType": "both",
-  "badgeText": "UJI COBA BROADCAST",
+  "badgeText": "NOTIFIKASI ALERT",
   "priority": "high",
-  "title": "Uji Coba Notifikasi Broadcast Developer 📢",
+  "title": "Terimakasih Untuk Para Pengguna Aplikasi ini 📢",
   "message": "Halo! Ini adalah pesan uji coba broadcast real-time. Fitur notifikasi status bar HP dan pengumuman developer telah aktif dan berfungsi dengan lancar!",
   "linkUrl": "https://github.com/ajiputra001/GPS-Changer-Android"
 }
