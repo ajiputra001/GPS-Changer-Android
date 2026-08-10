@@ -30,7 +30,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ajiputratech.gpsmock"
-        minSdk = flutter.minSdkVersion
+        minSdk = 29
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

@@ -111,7 +111,10 @@ class _PermissionsSheetState extends State<PermissionsSheet>
             subtitle: "Needed to show your real position",
             granted: _location,
             onFix: () async {
-              await Permission.location.request();
+              final status = await Permission.location.request();
+              if (status.isGranted) {
+                await Permission.locationAlways.request();
+              }
               _refresh();
             },
           ),

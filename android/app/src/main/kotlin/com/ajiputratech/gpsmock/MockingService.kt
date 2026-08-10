@@ -7,9 +7,9 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.location.Criteria
 import android.location.Location
 import android.location.LocationManager
-import android.location.provider.ProviderProperties
 import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
@@ -465,8 +465,8 @@ class MockingService : Service() {
                     true,  // supportsAltitude
                     true,  // supportsSpeed
                     true,  // supportsBearing
-                    ProviderProperties.POWER_USAGE_LOW,
-                    ProviderProperties.ACCURACY_FINE
+                    Criteria.POWER_LOW,
+                    Criteria.ACCURACY_FINE
                 )
             } catch (e: Exception) {
                 // Provider might already exist or not allowed
