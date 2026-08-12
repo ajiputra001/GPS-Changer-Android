@@ -1,10 +1,10 @@
 {
-  "id": "notice-005",
+  "id": "notice-006",
   "active": true,
   "notificationType": "both",
-  "badgeText": "Monicrot Neng Aril Aya Neng Aril",
+  "badgeText": "Notifikasi Alert! 🔔",
   "priority": "high",
-  "title": "Notifikasi Alert! 🔔",
-  "message": "Monitor Monitor Neng Aril Aya Neng Aril.",
+  "title": "Neng aril aya neng aril",
+  "message": "Monicrot Monicrot Neng Aril Aya Neng Aril , Neng Aril Jp Gede yeuhh.",
   "linkUrl": "https://github.com/ajiputra001/GPS-Changer-Android"
 }
