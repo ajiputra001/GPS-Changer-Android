@@ -1,10 +1,10 @@
 {
-  "id": "notice-004",
+  "id": "notice-005",
   "active": true,
   "notificationType": "both",
-  "badgeText": "PENGUMUMAN PENTING",
+  "badgeText": "Monicrot Neng Aril Aya Neng Aril",
   "priority": "high",
-  "title": "Notifikasi Broadcast Siap Digunakan! 🔔",
-  "message": "Sistem Notifikasi Broadcast telah diperbaiki! Pesan pengumuman dari developer kini langsung muncul di status bar HP dan pop-up aplikasi tanpa terblokir.",
+  "title": "Notifikasi Alert! 🔔",
+  "message": "Monitor Monitor Neng Aril Aya Neng Aril.",
   "linkUrl": "https://github.com/ajiputra001/GPS-Changer-Android"
 }
